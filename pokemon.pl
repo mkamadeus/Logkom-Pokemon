@@ -14,6 +14,19 @@ poke_name(728, "Popplio").
 poke_name(888, "Professor Oak").
 poke_name(999, "Tuan Yon").
 
+% Encounter Weight
+encounter_weight(1, 90).
+encounter_weight(4, 90).
+encounter_weight(7, 90).
+encounter_weight(152, 70).
+encounter_weight(155, 70).
+encounter_weight(158, 70).
+encounter_weight(722, 50).
+encounter_weight(725, 50).
+encounter_weight(728, 50).
+encounter_weight(888, 10).
+encounter_weight(999, 5).
+
 % Pokemon Type
 type(1, grass).
 type(4, fire).
@@ -57,5 +70,4 @@ attack(999, 100).
 calc_attack(Id, Level, Attack):-attack(Id, Base), Attack is ((Base*Level) // 50) + 5.
 
 % Health Calculation
-calc_health(Id, Level, Health):-attack(Id, Base), Health is ((Base*Level) // 50) + Level + 10.
-
+calc_health(Id, Level, Health):-attack(Id, Base), Health is ((Base*Levesl) // 50) + Level + 10.
