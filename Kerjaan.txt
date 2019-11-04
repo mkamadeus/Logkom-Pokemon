@@ -1,0 +1,61 @@
+1. Pokemon.pl
+Berisikan fact dan rules dari pokemon. Layaknya database. Sementara gunakan 10 Normal Tokemon, acak di MAP.  Legendari Tokemon Lebih dari 2.
+a. Basically Pokedex
+b. Health
+c. Type (Fire, Water, Grass)
+d. Normal Attack
+e.Special Attack (once per battle)
+
+b. Main.pl
+
+c. Map.pl
+Prosedure Print MAP ke layar. (Command Map /0 )
+Minimal berukuran 10x10
+‘X’ Sebagai pagar, dipinggir peta. Pokemon tidak boleh menempati X dan melewati X.
+Tergdapat ‘G’, Gym Center.
+Rintangan dengan X.
+Posisi player + bend-benda lain
+Normal tokemon muncul secara acak di map
+
+d. Player.pl
+Start ,TokeBall tidak terbatas
+Start, 1 Tokemon Normal.
+Inventori, daftar pokemon yang telah ditangkap. Maks 6 Pokemon.
+Mekanisme jika inventori penih. Pemain memilih tokemon yang ingin dibuang.
+
+e. Exploration.pl
+Berisikan mekanisme untuk tokemon bereskplorasi
+RNG Encounter (Chance legendary < Chance normal)
+peluang bertemu dengan legendary. Tokemon harus lebih kecil dibanding peluang bertemu dengan Tokemon yang. biasa saja.
+Mekanisme menemukan pokemon. Message tentang info yang akan dtemukan dan infonya.
+
+f. Start.pl
+Memulai game dan inisialisasi data-data
+
+g. Help.pl
+Print list command yang dapat digunakan
+
+h. Move.pl
+Berisi kode menggerakkan player
+Berisi 4 kode, N, S, F, dan W
+
+i. Heal.pl (Command)
+Tambah health, nuff said...
+
+j. Status.pl (Command)
+Print data informasi tentang player dan legendary Tokemon
+
+k. Pick.pl (Command)
+Ubah pokemon yang sedang digunakan
+
+l. Attack.pl (Command)
+Mengurangi health pokemon berdasarkan baseAttack; Attack dikali atau dibagi 50 berdasarkan type
+    
+m. specialAttack.pl (Command)
+Mengurangi health pokemon berdasarkan specialAttack; Attack dikali atau dibagi 50 berdasarkan type
+
+n. Run.pl (Command)
+Kabur dengan kemungkinan gagal
+
+o. Drop.pl (Command)
+Hapus pokemon dari inventori
