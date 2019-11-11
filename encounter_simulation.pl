@@ -1,7 +1,7 @@
 /* File : encounter_simulation.pl */
 /* Place to store Pokemon Facts */
 
-:-include('./pokemon.pl').
+:- include('./pokemon.pl').
 
 pizza(Id, Pokemon):-poke_name(Id, Z), Pokemon is Z.
 
