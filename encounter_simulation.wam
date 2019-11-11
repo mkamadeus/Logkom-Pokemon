@@ -1,0 +1,755 @@
+% compiler: GNU Prolog 1.4.5
+% file    : encounter_simulation.pl
+
+
+file_name('/media/myx/DATA/Logkom-Pokemon/pokemon.pl').
+
+
+predicate(user:poke_name/2,5,static,private,monofile,global,[
+    switch_on_term(2,fail,1,fail,fail),
+
+label(1),
+    switch_on_integer([(1,3),(4,5),(7,7),(152,9),(155,11),(158,13),(722,15),(725,17),(728,19),(888,21),(999,23)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_integer(1,0),
+    get_list(1),
+    unify_integer(66),
+    unify_list,
+    unify_integer(117),
+    unify_list,
+    unify_integer(108),
+    unify_list,
+    unify_integer(98),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(115),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(117),
+    unify_list,
+    unify_integer(114),
+    unify_nil,
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_integer(4,0),
+    get_list(1),
+    unify_integer(67),
+    unify_list,
+    unify_integer(104),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(114),
+    unify_list,
+    unify_integer(109),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(110),
+    unify_list,
+    unify_integer(100),
+    unify_list,
+    unify_integer(101),
+    unify_list,
+    unify_integer(114),
+    unify_nil,
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_integer(7,0),
+    get_list(1),
+    unify_integer(83),
+    unify_list,
+    unify_integer(113),
+    unify_list,
+    unify_integer(117),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(114),
+    unify_list,
+    unify_integer(116),
+    unify_list,
+    unify_integer(108),
+    unify_list,
+    unify_integer(101),
+    unify_nil,
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_integer(152,0),
+    get_list(1),
+    unify_integer(67),
+    unify_list,
+    unify_integer(104),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(107),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(114),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(116),
+    unify_list,
+    unify_integer(97),
+    unify_nil,
+    proceed,
+
+label(10),
+    retry_me_else(12),
+
+label(11),
+    get_integer(155,0),
+    get_list(1),
+    unify_integer(67),
+    unify_list,
+    unify_integer(121),
+    unify_list,
+    unify_integer(110),
+    unify_list,
+    unify_integer(100),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(113),
+    unify_list,
+    unify_integer(117),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(108),
+    unify_nil,
+    proceed,
+
+label(12),
+    retry_me_else(14),
+
+label(13),
+    get_integer(158,0),
+    get_list(1),
+    unify_integer(84),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(116),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(100),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(108),
+    unify_list,
+    unify_integer(101),
+    unify_nil,
+    proceed,
+
+label(14),
+    retry_me_else(16),
+
+label(15),
+    get_integer(722,0),
+    get_list(1),
+    unify_integer(82),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(119),
+    unify_list,
+    unify_integer(108),
+    unify_list,
+    unify_integer(101),
+    unify_list,
+    unify_integer(116),
+    unify_nil,
+    proceed,
+
+label(16),
+    retry_me_else(18),
+
+label(17),
+    get_integer(725,0),
+    get_list(1),
+    unify_integer(76),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(116),
+    unify_list,
+    unify_integer(116),
+    unify_list,
+    unify_integer(101),
+    unify_list,
+    unify_integer(110),
+    unify_nil,
+    proceed,
+
+label(18),
+    retry_me_else(20),
+
+label(19),
+    get_integer(728,0),
+    get_list(1),
+    unify_integer(80),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(112),
+    unify_list,
+    unify_integer(112),
+    unify_list,
+    unify_integer(108),
+    unify_list,
+    unify_integer(105),
+    unify_list,
+    unify_integer(111),
+    unify_nil,
+    proceed,
+
+label(20),
+    retry_me_else(22),
+
+label(21),
+    get_integer(888,0),
+    get_list(1),
+    unify_integer(80),
+    unify_list,
+    unify_integer(114),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(102),
+    unify_list,
+    unify_integer(101),
+    unify_list,
+    unify_integer(115),
+    unify_list,
+    unify_integer(115),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(114),
+    unify_list,
+    unify_integer(32),
+    unify_list,
+    unify_integer(79),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(107),
+    unify_nil,
+    proceed,
+
+label(22),
+    trust_me_else_fail,
+
+label(23),
+    get_integer(999,0),
+    get_list(1),
+    unify_integer(84),
+    unify_list,
+    unify_integer(117),
+    unify_list,
+    unify_integer(97),
+    unify_list,
+    unify_integer(110),
+    unify_list,
+    unify_integer(32),
+    unify_list,
+    unify_integer(89),
+    unify_list,
+    unify_integer(111),
+    unify_list,
+    unify_integer(110),
+    unify_nil,
+    proceed]).
+
+
+predicate(user:encounter_weight/2,18,static,private,monofile,global,[
+    switch_on_term(2,fail,1,fail,fail),
+
+label(1),
+    switch_on_integer([(1,3),(4,5),(7,7),(152,9),(155,11),(158,13),(722,15),(725,17),(728,19),(888,21),(999,23)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_integer(1,0),
+    get_integer(90,1),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_integer(4,0),
+    get_integer(90,1),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_integer(7,0),
+    get_integer(90,1),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_integer(152,0),
+    get_integer(70,1),
+    proceed,
+
+label(10),
+    retry_me_else(12),
+
+label(11),
+    get_integer(155,0),
+    get_integer(70,1),
+    proceed,
+
+label(12),
+    retry_me_else(14),
+
+label(13),
+    get_integer(158,0),
+    get_integer(70,1),
+    proceed,
+
+label(14),
+    retry_me_else(16),
+
+label(15),
+    get_integer(722,0),
+    get_integer(50,1),
+    proceed,
+
+label(16),
+    retry_me_else(18),
+
+label(17),
+    get_integer(725,0),
+    get_integer(50,1),
+    proceed,
+
+label(18),
+    retry_me_else(20),
+
+label(19),
+    get_integer(728,0),
+    get_integer(50,1),
+    proceed,
+
+label(20),
+    retry_me_else(22),
+
+label(21),
+    get_integer(888,0),
+    get_integer(10,1),
+    proceed,
+
+label(22),
+    trust_me_else_fail,
+
+label(23),
+    get_integer(999,0),
+    get_integer(5,1),
+    proceed]).
+
+
+predicate(user:type/2,31,static,private,monofile,global,[
+    switch_on_term(2,fail,1,fail,fail),
+
+label(1),
+    switch_on_integer([(1,3),(4,5),(7,7),(152,9),(155,11),(158,13),(722,15),(725,17),(728,19),(888,21),(999,23)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_integer(1,0),
+    get_atom(grass,1),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_integer(4,0),
+    get_atom(fire,1),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_integer(7,0),
+    get_atom(water,1),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_integer(152,0),
+    get_atom(grass,1),
+    proceed,
+
+label(10),
+    retry_me_else(12),
+
+label(11),
+    get_integer(155,0),
+    get_atom(fire,1),
+    proceed,
+
+label(12),
+    retry_me_else(14),
+
+label(13),
+    get_integer(158,0),
+    get_atom(water,1),
+    proceed,
+
+label(14),
+    retry_me_else(16),
+
+label(15),
+    get_integer(722,0),
+    get_atom(grass,1),
+    proceed,
+
+label(16),
+    retry_me_else(18),
+
+label(17),
+    get_integer(725,0),
+    get_atom(fire,1),
+    proceed,
+
+label(18),
+    retry_me_else(20),
+
+label(19),
+    get_integer(728,0),
+    get_atom(water,1),
+    proceed,
+
+label(20),
+    retry_me_else(22),
+
+label(21),
+    get_integer(888,0),
+    get_atom(grass,1),
+    proceed,
+
+label(22),
+    trust_me_else_fail,
+
+label(23),
+    get_integer(999,0),
+    get_atom(fire,1),
+    proceed]).
+
+
+predicate(user:health/2,44,static,private,monofile,global,[
+    switch_on_term(2,fail,1,fail,fail),
+
+label(1),
+    switch_on_integer([(1,3),(4,5),(7,7),(152,9),(155,11),(158,13),(722,15),(725,17),(728,19),(888,21),(999,23)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_integer(1,0),
+    get_integer(45,1),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_integer(4,0),
+    get_integer(39,1),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_integer(7,0),
+    get_integer(44,1),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_integer(152,0),
+    get_integer(45,1),
+    proceed,
+
+label(10),
+    retry_me_else(12),
+
+label(11),
+    get_integer(155,0),
+    get_integer(39,1),
+    proceed,
+
+label(12),
+    retry_me_else(14),
+
+label(13),
+    get_integer(158,0),
+    get_integer(50,1),
+    proceed,
+
+label(14),
+    retry_me_else(16),
+
+label(15),
+    get_integer(722,0),
+    get_integer(68,1),
+    proceed,
+
+label(16),
+    retry_me_else(18),
+
+label(17),
+    get_integer(725,0),
+    get_integer(45,1),
+    proceed,
+
+label(18),
+    retry_me_else(20),
+
+label(19),
+    get_integer(728,0),
+    get_integer(50,1),
+    proceed,
+
+label(20),
+    retry_me_else(22),
+
+label(21),
+    get_integer(888,0),
+    get_integer(100,1),
+    proceed,
+
+label(22),
+    trust_me_else_fail,
+
+label(23),
+    get_integer(999,0),
+    get_integer(100,1),
+    proceed]).
+
+
+predicate(user:attack/2,57,static,private,monofile,global,[
+    switch_on_term(2,fail,1,fail,fail),
+
+label(1),
+    switch_on_integer([(1,3),(4,5),(7,7),(152,9),(155,11),(158,13),(722,15),(725,17),(728,19),(888,21),(999,23)]),
+
+label(2),
+    try_me_else(4),
+
+label(3),
+    get_integer(1,0),
+    get_integer(45,1),
+    proceed,
+
+label(4),
+    retry_me_else(6),
+
+label(5),
+    get_integer(4,0),
+    get_integer(39,1),
+    proceed,
+
+label(6),
+    retry_me_else(8),
+
+label(7),
+    get_integer(7,0),
+    get_integer(44,1),
+    proceed,
+
+label(8),
+    retry_me_else(10),
+
+label(9),
+    get_integer(152,0),
+    get_integer(45,1),
+    proceed,
+
+label(10),
+    retry_me_else(12),
+
+label(11),
+    get_integer(155,0),
+    get_integer(39,1),
+    proceed,
+
+label(12),
+    retry_me_else(14),
+
+label(13),
+    get_integer(158,0),
+    get_integer(50,1),
+    proceed,
+
+label(14),
+    retry_me_else(16),
+
+label(15),
+    get_integer(722,0),
+    get_integer(68,1),
+    proceed,
+
+label(16),
+    retry_me_else(18),
+
+label(17),
+    get_integer(725,0),
+    get_integer(45,1),
+    proceed,
+
+label(18),
+    retry_me_else(20),
+
+label(19),
+    get_integer(728,0),
+    get_integer(50,1),
+    proceed,
+
+label(20),
+    retry_me_else(22),
+
+label(21),
+    get_integer(888,0),
+    get_integer(100,1),
+    proceed,
+
+label(22),
+    trust_me_else_fail,
+
+label(23),
+    get_integer(999,0),
+    get_integer(100,1),
+    proceed]).
+
+
+predicate(user:calc_attack/3,70,static,private,monofile,global,[
+    allocate(3),
+    get_variable(y(0),1),
+    get_variable(y(1),2),
+    put_variable(y(2),1),
+    call(attack/2),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[is,2]),
+    math_load_value(y(2),0),
+    math_load_value(y(0),1),
+    call_c('Pl_Fct_Mul',[fast_call,x(0)],[x(0),x(1)]),
+    put_integer(50,1),
+    call_c('Pl_Fct_Div',[fast_call,x(0)],[x(0),x(1)]),
+    put_integer(5,1),
+    call_c('Pl_Fct_Add',[fast_call,x(0)],[x(0),x(1)]),
+    get_value(y(1),0),
+    deallocate,
+    proceed]).
+
+
+predicate(user:calc_health/3,73,static,private,monofile,global,[
+    allocate(3),
+    get_variable(y(0),1),
+    get_variable(y(1),2),
+    put_variable(y(2),1),
+    call(attack/2),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[is,2]),
+    math_load_value(y(2),0),
+    math_load_value(y(0),1),
+    call_c('Pl_Fct_Mul',[fast_call,x(0)],[x(0),x(1)]),
+    put_integer(50,1),
+    call_c('Pl_Fct_Div',[fast_call,x(0)],[x(0),x(1)]),
+    math_load_value(y(0),1),
+    call_c('Pl_Fct_Add',[fast_call,x(0)],[x(0),x(1)]),
+    put_integer(10,1),
+    call_c('Pl_Fct_Add',[fast_call,x(0)],[x(0),x(1)]),
+    get_value(y(1),0),
+    deallocate,
+    proceed]).
+
+
+file_name('/media/myx/DATA/Logkom-Pokemon/encounter_simulation.pl').
+
+
+predicate(user:encounter_pokemon/1,6,static,private,monofile,global,[
+    allocate(4),
+    get_variable(y(0),0),
+    put_integer(0,0),
+    put_integer(101,1),
+    put_variable(y(1),2),
+    call(random/3),
+    put_value(y(1),0),
+    call(write/1),
+    put_variable(y(2),0),
+    put_variable(y(3),1),
+    call(encounter_weight/2),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[=<,2]),
+    math_load_value(y(1),0),
+    math_load_value(y(3),1),
+    call_c('Pl_Blt_Lte',[fast_call,boolean],[x(0),x(1)]),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[is,2]),
+    math_load_value(y(2),0),
+    get_value(y(0),0),
+    deallocate,
+    proceed]).
+
+
+predicate(user:encounter/2,7,static,private,monofile,global,[
+    allocate(4),
+    get_variable(y(0),0),
+    get_variable(y(1),1),
+    put_integer(0,0),
+    put_integer(101,1),
+    put_variable(y(2),2),
+    call(random/3),
+    put_value(y(2),0),
+    call(write/1),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[=<,2]),
+    math_load_value(y(2),0),
+    math_load_value(y(0),1),
+    call_c('Pl_Blt_Lte',[fast_call,boolean],[x(0),x(1)]),
+    put_variable(y(3),0),
+    call(encounter_pokemon/1),
+    call_c('Pl_Set_Bip_Name_Untagged_2',[by_value],[is,2]),
+    math_load_value(y(3),0),
+    get_value(y(1),0),
+    deallocate,
+    proceed]).

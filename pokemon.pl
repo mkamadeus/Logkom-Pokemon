@@ -70,4 +70,4 @@ attack(999, 100).
 calc_attack(Id, Level, Attack):-attack(Id, Base), Attack is ((Base*Level) // 50) + 5.
 
 % Health Calculation
-calc_health(Id, Level, Health):-attack(Id, Base), Health is ((Base*Levesl) // 50) + Level + 10.
+calc_health(Id, Level, Health):-attack(Id, Base), Health is ((Base*Level) // 50) + Level + 10.
