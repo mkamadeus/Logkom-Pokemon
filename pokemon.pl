@@ -1,7 +1,7 @@
 /* File : pokemon.pl */
 /* Place to store Pokemon Facts */
 
-% ID and Name
+/* ID and Name */
 poke_name(1, "Bulbasaur").
 poke_name(4, "Charmander").
 poke_name(7, "Squirtle").
@@ -14,7 +14,7 @@ poke_name(728, "Popplio").
 poke_name(888, "Professor Oak").
 poke_name(999, "Tuan Yon").
 
-% Encounter Weight
+/* Encounter weight */
 encounter_weight(1, 90).
 encounter_weight(4, 90).
 encounter_weight(7, 90).
@@ -27,7 +27,7 @@ encounter_weight(728, 50).
 encounter_weight(888, 10).
 encounter_weight(999, 5).
 
-% Pokemon Type
+/* Pokemon type */
 type(1, grass).
 type(4, fire).
 type(7, water).
@@ -40,7 +40,7 @@ type(728, water).
 type(888, grass).
 type(999, fire).
 
-% Base health
+/* Base health */
 health(1, 45).
 health(4, 39).
 health(7, 44).
@@ -53,7 +53,7 @@ health(728, 50).
 health(888, 100).
 health(999, 100).
 
-% Base attack
+/* Base attack */
 attack(1, 45).
 attack(4, 39).
 attack(7, 44).
@@ -65,9 +65,3 @@ attack(725, 45).
 attack(728, 50).
 attack(888, 100).
 attack(999, 100).
-
-% Attack Calculation
-calc_attack(Id, Level, Attack):-attack(Id, Base), Attack is ((Base*Level) // 50) + 5.
-
-% Health Calculation
-calc_health(Id, Level, Health):-attack(Id, Base), Health is ((Base*Levesl) // 50) + Level + 10.
