@@ -3,7 +3,13 @@
 
 :- include('pokemon.pl').
 
-pizza(Id, Pokemon):-poke_name(Id, Z), Pokemon is Z.
-
-encounter_pokemon(Pokemon):-random(0,101,X),encounter_weight(Z,Y),Pokemon is Z,X=<Y.
-encounter(Chance, Result):-random(0,101,X), X =< Chance, encounter_pokemon(P), Result is P.
+encounter_pokemon(IdLimit,Pokemon):-
+    random(0,101,EncounterWeight),
+    random(1,IdLimit,EncounterId),
+    encounter_weight(EncounterId,EncounterRate),
+    Pokemon is EncounterId,
+    EncounterWeight=<EncounterRate,
+    write("You encountered a/an "),
+    poke_name(EncounterId, EncounterName),
+    write(EncounterName),
+    write("!\n").
