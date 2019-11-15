@@ -1,5 +1,3 @@
-:- include('pokemon.pl').
-
 % map_object(X, Y, Obj) = Object Obj at position (X, Y)
 map_object(1, 1, 'S').
 
