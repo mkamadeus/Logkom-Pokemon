@@ -34,7 +34,7 @@ calc_attack(AttackerId, DefenderId, Result) :-
     Res is (AtkVal * Mult),
     Result is round(Res).
 
-% Success Condition: Mengubah selected_pokemon menjadi X
+% Success Result: Mengubah selected_pokemon menjadi X
 pick(X) :-
     in_battle,
     X > 0,
@@ -54,10 +54,23 @@ pick(X) :-
     write('Wrong parameter jancug...'), nl,
     write('Usage: pick(1..6)').
 
-
+% Success Result: Darah musuh berkurang
 attack :-
-    in_battle.
+    in_battle, !,
+    enemy_health(X),
+    retract(enemy_health(X)),
+    selected_pokemon(SelPoke),
+    pokemon_slot(SelPoke, PokeId),
+    enemy_pokemon(EnemyId),
+    calc_attack(PokeId, EnemyId, Atk),
+    NewX is X - Atk,
+    assertz(enemy_health(NewX)).
 
+% Fail Condition: Tidak dalam battle
+attack :-
+    !,
+    write('Wrong command jancug...'), nl,
+    write('You are currently not in a battle').
 
 % Player sudah memilih untuk bertarung/lari
 % Player juga sudah memilih pokemon pertama untuk dimainkan 
