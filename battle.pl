@@ -1,3 +1,6 @@
+% Untuk memulai battle, run init_battle
+% Command yang dibuka untuk player ada pada prosedur yang bersangkutan
+
 :- include('pokemon.pl').
 :- include('player_status.pl').
 :- include('pokemon_status.pl').
@@ -26,6 +29,10 @@ attack_multiplier(grass, fire, 0.5).
 attack_multiplier(grass, water, 1.5).
 attack_multiplier(grass, grass, 1).
 
+% Melakukan inisialisasi battle
+init_battle :-
+    assertz(in_battle).
+
 % Menghitung besar damage yang dikena musuh
 calc_damage(AttackerId, DefenderId, Result) :-
     type(AttackerId, AtkType),
@@ -51,7 +58,36 @@ check_death :-
     retract(in_battle).
 
 % Ignore bila musuh belum mati
-check_death :- !.
+check_death :-
+    enemy_turn.
+
+check_player_lose :-
+    pokemon_count(0),
+    write('YOU LOSE :(').
+
+check_player_lose :- !.
+
+check_player_death :-
+    selected_pokemon(SelPoke),
+    pokemon_health(SelPoke, Health),
+    Health =< 0, !,
+    del_pokemon(SelPoke),
+    check_player_lose.
+
+check_player_death :-
+    enemy_turn.
+
+% Pokemon musuh menyerang pemain
+enemy_turn :- !,
+    selected_pokemon(SelPoke),
+    pokemon_slot(SelPoke, PokeId),
+    pokemon_health(SelPoke, Health),
+    retract(pokemon_health(SelPoke, Health)),
+    enemy_pokemon(EnemyId),
+    calc_damage(EnemyId, PokeId, Atk),
+    New is Health - Atk,
+    assertz(pokemon_health(SelPoke, New)),
+    check_player_death.
 
 % Success Result: Mengubah selected_pokemon menjadi X
 pick(X) :-
@@ -92,6 +128,11 @@ attack :-
     write('Wrong command jancug...'), nl,
     write('You are currently not in a battle').
 
+attack :-
+    selected_pokemon(0), !,
+    write('Wrong command jancug...'), nl,
+    write('You have not picked a pokémon yet').
+
 % Success Result: Darah musuh berkurang
 special_attack :-
     in_battle, !,
@@ -110,7 +151,7 @@ special_attack :-
     write('Wrong command jancug...'), nl,
     write('You are currently not in a battle').
 
-% Player sudah memilih untuk bertarung/lari
-% Player juga sudah memilih pokemon pertama untuk dimainkan 
-battle_loop :-
-    !.
+special_attack :-
+    selected_pokemon(0), !,
+    write('Wrong command jancug...'), nl,
+    write('You have not picked a pokémon yet').
