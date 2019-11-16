@@ -65,3 +65,15 @@ attack(8, 45).
 attack(9, 50).
 attack(10, 100).
 attack(11, 100).
+
+special(1, 65).
+special(2, 60).
+special(3, 50).
+special(4, 49).
+special(5, 60).
+special(6, 56).
+special(7, 50).
+special(8, 60).
+special(9, 66).
+special(10, 120).
+special(11, 120).

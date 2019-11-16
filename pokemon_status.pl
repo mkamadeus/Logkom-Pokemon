@@ -10,7 +10,7 @@ print_pokemon_status(IdSlot):-
     poke_name(IdPoke, NamePoke),
     write(NamePoke),
     write("\n"),
-    health(IdPoke, HealthPoke),
+    pokemon_health(IdPoke, HealthPoke),
     write("Health : "),
     write(HealthPoke),
     write("\n"),
