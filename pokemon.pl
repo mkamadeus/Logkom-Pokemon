@@ -2,6 +2,7 @@
 /* Place to store Pokemon Facts */
 
 /* ID and Name */
+poke_name(0, "Normal Starter Pokemon").
 poke_name(1, "Bulbasaur").
 poke_name(2, "Charmander").
 poke_name(3, "Squirtle").
@@ -28,6 +29,7 @@ encounter_weight(10, 10).
 encounter_weight(11, 5).
 
 /* Pokemon Type */
+type(0, normal).
 type(1, grass).
 type(2, fire).
 type(3, water).
@@ -41,6 +43,7 @@ type(10, grass).
 type(11, fire).
 
 /* Pokemon Health */
+health(0, 60).
 health(1, 45).
 health(2, 39).
 health(3, 44).
@@ -54,6 +57,7 @@ health(10, 100).
 health(11, 100).
 
 /* Pokemon Attack */
+attack(0, 50).
 attack(1, 45).
 attack(2, 39).
 attack(3, 44).

@@ -11,6 +11,8 @@ game_start(false).
 start:-
     asserta(game_start(true)),
     retract(game_start(false)),
+    asserta(pokemon_slot(1,0)),
+    retract(pokemon_slot(1,-1)),
     write('___OooOOo.                                          ___'),nl,
     write('___O     `O                                         ___'),nl,
     write('___o      O                                         ___'),nl,
@@ -69,7 +71,9 @@ quit :-
     (Param = y -> halt;
     (Param = n -> fail)).
 
-status :- print_inventory.
+status :- 
+    game_start(true),
+    print_inventory.
 
 
 map :- draw_map.
