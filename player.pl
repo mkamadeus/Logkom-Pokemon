@@ -1,8 +1,6 @@
 /* File : Player.pl */
 /* Store player information and the inventory */
 
-:-include('pokemon.pl').
-
 /* Set dynamc predicates */
 :- dynamic(pokemon_inventory/2).
 :- dynamic(pokemon_health/1).
