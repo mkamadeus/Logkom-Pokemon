@@ -2,38 +2,34 @@
 /* File to store player status */
 
 /* Set dynamc predicates */
-:- dynamic(pokemon_count/1).
-:- dynamic(pokemon_slot/2).
+:- dynamic(pokemon_inventory/2).
 
-/* Initialize pokemon count */
-pokemon_count(0).
+/* Pokemon slot */
+pokemon_inventory([],0).
 
 /* Initialize player's pokemon slot */
-pokemon_slot(1, -1).
-pokemon_slot(2, -1).
-pokemon_slot(3, -1).
-pokemon_slot(4, -1).
-pokemon_slot(5, -1).
-pokemon_slot(6, -1).
+
+/* Utility function for inserting pokemon at end of list */
+insert_back(X, [], [X]).
+insert_back(X, [H|Tail1], [H|Tail2]):-insert_back(X,Tail1, Tail2).
+
+/* Utility function for deleting nth pokemon of the list */
+delete_nth(1, [_|T], T).
+delete_nth(N, [H|Tail1], [H|Tail2]) :- N1 is N-1, delete_nth(N1, Tail1, Tail2).
 
 /* Procedure to add pokemon to inventory*/
-add_pokemon(IdSlot, IdPoke) :- 
-    pokemon_count(X), 
-    Z is X+1,
-    assertz(pokemon_slot(IdSlot, IdPoke)),
-    assertz(pokemon_count(Z)),
-    retract(pokemon_slot(IdSlot, -1)),
-    retract(pokemon_count(X)),
-    pokemon_count(Z).
+insert_pokemon(PokeId) :- 
+    pokemon_inventory(PokeList,PokeCount),
+    NewPokeCount is PokeCount+1,
+    insert_back(PokeId, PokeList, NewPokeList),
+    assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
+    retract(pokemon_inventory(PokeList, PokeCount)).
 
 /* Procedure to remove pokemon from inventory */
-del_pokemon(IdSlot) :-
-    pokemon_count(X),
-    Z is X-1,
-    retract(pokemon_slot(IdSlot, _)),
-    retract(pokemon_count(X)),
-    assertz(pokemon_slot(IdSlot, -1)),
-    assertz(pokemon_count(Z)),
-    pokemon_count(Z).
-
+delete_pokemon(SlotId) :-
+    pokemon_inventory(PokeList,PokeCount),
+    NewPokeCount is PokeCount-1,
+    delete_nth(SlotId, PokeList, NewPokeList),
+    assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
+    retract(pokemon_inventory(PokeList, PokeCount)).
 
