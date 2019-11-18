@@ -6,6 +6,16 @@
 game_start(false).
 
 start:-
+    ['pokemon.pl'],
+    ['move.pl'],
+    ['player.pl'],
+    ['map.pl'],
+    ['battle.pl'],
+    ['encounter_simulation.pl'],
+    ['capture.pl'],
+    ['status.pl'],
+    ['help.pl'],
+
     retract(game_start(false)), !,
     asserta(game_start(true)),
     write(' .sSSSSs.                                                                                      '),nl,

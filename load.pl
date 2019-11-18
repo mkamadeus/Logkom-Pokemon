@@ -2,4 +2,8 @@
 /* File for storing load file mechanism */
 
 load :-
-    ['savefile.dat'].
+    write('Loading savefile.dat...'),
+    nl,
+    ['savefile.dat'],
+    write('Load successful!'),
+    nl.
