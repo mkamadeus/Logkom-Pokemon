@@ -1,7 +1,6 @@
 :- dynamic(map_object/3).
 
 % map_object(X, Y, Obj) = Object Obj at position (X, Y)
-map_object(1, 1, 'P').
 map_object(4, 3, 'X').
 map_object(4, 4, 'X').
 map_object(4, 5, 'X').

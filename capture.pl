@@ -9,6 +9,8 @@ capture :-
     pokemon_inventory(_, Count),
     Count < 6, !,
     insert_pokemon(PokeId),
+    retract(enemy_pokemon(_)),
+    assertz(enemy_pokemon(0)),
     poke_name(PokeId, Name),
     write(Name), write(' is captured!').
 
@@ -26,3 +28,7 @@ capture :-
     
 capture :- !,
     write('Your inventory is full! You have to drop a Pokemon first.').
+    
+skip_capture :- !,
+    retract(enemy_pokemon(_)),
+    assertz(enemy_pokemon(0)).

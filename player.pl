@@ -5,21 +5,17 @@
 :- dynamic(pokemon_inventory/2).
 :- dynamic(pokemon_health/1).
 
-/* Pokemon slot */
-pokemon_inventory([],0).
-pokemon_health([]).
-
 /* Utility function for inserting pokemon at end of list */
-insert_back(X, [], [X]).
+insert_back(X, [], [X]) :- !.
 insert_back(X, [H|Tail1], [H|Tail2]):-insert_back(X,Tail1, Tail2).
 
 /* Utility function for deleting nth pokemon of the list */
-delete_nth(1, [_|T], T).
+delete_nth(1, [_|T], T) :- !.
 delete_nth(N, [H|Tail1], [H|Tail2]) :- N1 is N-1, delete_nth(N1, Tail1, Tail2).
 
 /* Utility function to get nth item of list */
-nth_item([H|_],1, H).
-nth_item([_|T],N, X):- N1 is N-1, nth_item(T, N1, X).
+nth_item([H|_],1, H) :- !.
+nth_item([_|T],N, X) :- N1 is N-1, nth_item(T, N1, X).
 
 /* Utility function to set nth item of list */
 set_nth_item([_|T], 1, X, [X|T]).
@@ -66,30 +62,25 @@ print_nth_slot(N):-
     nth_item(PokeHealthList, N, NthHealth),
 
     poke_name(NthId, PokeName),
-    write(PokeName),
-    write("\n"),
+    write(PokeName), nl,
 
     write("Health : "),
-    write(NthHealth),
-    write("\n"),
+    write(NthHealth), nl,
     
     attack(NthId, PokeAttack),
     write("Attack : "),
-    write(PokeAttack),
-    write("\n"),
+    write(PokeAttack), nl,
     
     type(NthId, PokeType),
     write("Type : "),
-    write(PokeType),
-    write("\n"),
-    write("\n").
+    write(PokeType), nl, nl.
 
 /* Print all slot */
 print_all_slot:-
     pokemon_inventory(_, Count),
     Count > 0,
     !,
-    write("Your Pokemons:\n"),
+    write('Your Pokemons:\n'),
     print_nth_slot(1),
     print_nth_slot(2),
     print_nth_slot(3),
