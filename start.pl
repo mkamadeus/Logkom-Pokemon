@@ -15,7 +15,7 @@ start:-
     ['capture.pl'],
     ['status.pl'],
     ['help.pl'],
-    ['drop.pl'].
+    ['drop.pl'],
 
     retract(game_start(false)), !,
     asserta(game_start(true)),
