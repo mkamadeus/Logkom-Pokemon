@@ -3,7 +3,7 @@
 
 :-include('pokemon.pl').
 
-:- include('map.pl').
+:- include('move.pl').
 :- include('player.pl').
 
 :- include('status.pl').

@@ -38,7 +38,7 @@ start:-
     write('But there are legendary Pokemons; Tuan Yon and Professor Oak!'),nl,
     write('If you can catch all the legendary Pokemons, you\'ll win!'),nl,
     write('                                                   '),nl,
-    insert_pokemon(0).
+    insert_pokemon(0), !.
 
 quit :- 
     game_start(true),
