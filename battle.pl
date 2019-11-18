@@ -57,7 +57,9 @@ run_success(R) :-
 
 run_success(R) :-
     R < 0, !,
-    write('You can\'t escape from the wild Pokemon. Meet your luck.').
+    write('You can\'t escape from the wild Pokemon. Meet your luck.'),
+    retract(fight_or_flight),
+    retract(in_battle).
 
 run :- 
     can_run,
@@ -99,6 +101,7 @@ check_death :-
     enemy_pokemon(Y),
     poke_name(Y, Name),
     write(Name), write(' faints! Do you want to capture it? (Use \'capture.\' to capture, otherwise move away)'), !,
+    remove_legendary(Y),
     retract(in_battle),
     retract(selected_pokemon(_)),
     assertz(selected_pokemon(0)), !,
@@ -110,11 +113,11 @@ check_death :-
     nl, nl, 
     enemy_turn.
 
-check_player_lose :- !,
-    pokemon_inventory(_, 0),
+check_player_lose :-
+    pokemon_inventory(_, 0), !,
     retract(game_start(true)),
     asserta(game_start(false)),
-    write('YOU LOSE :('), !.
+    write('All your Pokemon fainted... Game Over... Type \'start.\' to retry!'), !.
 
 check_player_lose :- !,
     write('Your Pokemon fainted! Fainted Pokemons cannot be resurrected. Choose another Pokemon to battle!').

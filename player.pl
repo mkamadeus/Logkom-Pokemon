@@ -64,7 +64,7 @@ print_nth_slot(N):-
     poke_name(NthId, PokeName),
     write(PokeName), nl,
 
-    write('Health : ')
+    write('Health : '),
     write(NthHealth), nl,
     
     attack(NthId, PokeAttack),

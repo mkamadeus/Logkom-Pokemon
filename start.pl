@@ -16,6 +16,8 @@ start:-
     ['status.pl'],
     ['help.pl'],
     ['drop.pl'],
+    ['heal.pl'],
+    ['legendary.pl'],
 
     retract(game_start(false)), !,
     asserta(game_start(true)),
