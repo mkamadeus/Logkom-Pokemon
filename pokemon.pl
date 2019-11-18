@@ -2,18 +2,18 @@
 /* Place to store Pokemon Facts */
 
 /* ID and Name */
-poke_name(0, "Normal Starter Pokemon").
-poke_name(1, "Bulbasaur").
-poke_name(2, "Charmander").
-poke_name(3, "Squirtle").
-poke_name(4, "Chikorita").
-poke_name(5, "Cyndaquil").
-poke_name(6, "Totodile").
-poke_name(7, "Rowlet").
-poke_name(8, "Litten").
-poke_name(9, "Popplio").
-poke_name(10, "Professor Oak").
-poke_name(11, "Tuan Yon").
+poke_name(0, 'Normal Starter Pokemon').
+poke_name(1, 'Bulbasaur').
+poke_name(2, 'Charmander').
+poke_name(3, 'Squirtle').
+poke_name(4, 'Chikorita').
+poke_name(5, 'Cyndaquil').
+poke_name(6, 'Totodile').
+poke_name(7, 'Rowlet').
+poke_name(8, 'Litten').
+poke_name(9, 'Popplio').
+poke_name(10, 'Professor Oak').
+poke_name(11, 'Tuan Yon').
 
 /* Encounter Weights */
 encounter_weight(1, 90).
@@ -70,6 +70,7 @@ attack(9, 50).
 attack(10, 100).
 attack(11, 100).
 
+special(0, 0).
 special(1, 65).
 special(2, 60).
 special(3, 50).

@@ -36,7 +36,7 @@ insert_pokemon(PokeId) :-
     assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
     assertz(pokemon_health(NewPokeHealthList)),
     retract(pokemon_inventory(PokeList, PokeCount)),
-    retract(pokemon_health(PokeHealthList)).
+    retract(pokemon_health(PokeHealthList)), !.
 
 /* Procedure to remove pokemon from inventory */
 delete_pokemon(SlotId) :-
@@ -50,7 +50,7 @@ delete_pokemon(SlotId) :-
     assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
     assertz(pokemon_health(NewPokeHealthList)),
     retract(pokemon_inventory(PokeList, PokeCount)),
-    retract(pokemon_health(PokeHealthList)).
+    retract(pokemon_health(PokeHealthList)), !.
 
 
 /* Print nth slot status */

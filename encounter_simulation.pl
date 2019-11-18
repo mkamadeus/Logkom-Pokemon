@@ -15,8 +15,8 @@ encounter_pokemon(IdLimit,Pokemon):-
     encounter_weight(EncounterId,EncounterRate),
     Pokemon is EncounterId,
     EncounterWeight=<EncounterRate,
-    write("You encountered a "),
+    write('You encountered a '),
     poke_name(EncounterId, EncounterName),
     write(EncounterName),
-    write("!\n").
+    write('!\n').
 
