@@ -18,11 +18,6 @@
 
 :- dynamic(special_used/0).
 
-% Inisialisasi selected_pokemon
-selected_pokemon(0).
-enemy_pokemon(0).
-enemy_health(0).
-
 % attack_multiplier(AttackType, DefendType, Multiplier)
 attack_multiplier(normal, normal, 1).
 attack_multiplier(normal, fire, 1).
@@ -83,7 +78,7 @@ check_death :-
     write(Name), write(' faints! Do you want to capture it? (Use \'capture.\' to capture, otherwise move away)'), !,
     retract(in_battle),
     retract(selected_pokemon(_)),
-    assertz(selected_pokemon(0)),
+    assertz(selected_pokemon(0)), !,
     retract(special_used).
 
 % Ignore bila musuh belum mati
@@ -219,6 +214,7 @@ specialAttack :-
     calc_special_damage(PokeId, EnemyId, Atk),
     NewX is X - Atk,
     assertz(enemy_health(NewX)),
+    assertz(special_used),
     
     write('You deal '), write(Atk), write(' damage to the enemy!'), nl, nl,
 
@@ -228,7 +224,7 @@ specialAttack :-
     selected_pokemon(0), !,
     write('You have not picked a pokemon yet').
 
-special_attack :-
+specialAttack :-
     fight_or_flight, !,
     write('Type \'fight.\' to fight, type \'run\' to run.').
 

@@ -38,7 +38,24 @@ start:-
     write('But there are legendary Pokemons; Tuan Yon and Professor Oak!'),nl,
     write('If you can catch all the legendary Pokemons, you\'ll win!'),nl,
     write('                                                   '),nl,
-    insert_pokemon(0), !.
+
+    /* Pokemon slot */
+    assertz(pokemon_inventory([],0)),
+    assertz(pokemon_health([])),
+    
+    insert_pokemon(0), !,
+
+    % Inisialisasi legendary
+    assertz(legendary(10)),
+    assertz(legendary(11)),
+
+    % Inisialisasi selected_pokemon
+    assertz(selected_pokemon(0)),
+    assertz(enemy_pokemon(0)),
+    assertz(enemy_health(0)),
+    
+    % Inisialisasi Player
+    assertz(map_object(1, 1, 'P')).
 
 start :-
     write('The game has already been started. Use \'help.\' to look at available commands!').

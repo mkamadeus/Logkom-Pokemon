@@ -1,10 +1,6 @@
 /*File berisikan move dari popomon*/
 /*Versi 11 november 2019 */
 /*Kelompok 12*/
-:- include('map.pl').
-:- include('battle.pl').
-%:- include('pokemon.pl').
-:- include('encounter_simulation').
 
 hit_wall :-
     write('You hit a wall, try using \'map.\' to see where you are right now').
@@ -30,6 +26,7 @@ n:-       /*Bergerak ke Utara (atas)*/
     YNew > 0, YNew =< H, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(X,YNew,'P')),
+    skip_capture,
     encounter.
 
 n :-
@@ -53,6 +50,7 @@ e:- /*Bergerak ke timur (kanan)*/
     XNew > 0, XNew =< W, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(XNew,Y,'P')),
+    skip_capture,
     encounter.
 
 e :-
@@ -76,6 +74,7 @@ s:- /*Bergerak ke Selatan (bawah)*/
     YNew > 0, YNew =< H, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(X,YNew,'P')),
+    skip_capture,
     encounter.
 
 s :-
@@ -99,6 +98,7 @@ w:- /*Bergerak ke barat(kiri)*/
     XNew > 0, XNew =< W, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(XNew,Y,'P')),
+    skip_capture,
     encounter.
 
 w :-
