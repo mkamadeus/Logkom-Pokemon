@@ -31,18 +31,50 @@ attack_multiplier(fighting, normal, 1).     attack_multiplier(fighting, fire, 0.
 init_battle :-
     assertz(fight_or_flight),
     assertz(in_battle),
+    assertz(can_run),
     enemy_pokemon(X),
     poke_name(X, Y),
     write('A wild '), write(Y), write(' appears!'), nl,
     write('Fight or Run?').
 
-fight :-
+fight :- in_battle,
     fight_or_flight, !,
-    write('You chose to face the Pokemon head on. Choose your Pokemon!'),
+    write('You choose to face the Pokemon head on. Choose your Pokemon!'),
     retract(fight_or_flight).
+fight :- 
+    (\+ in_battle), !,
+    write('You aren\'t in a battle Broo, meet a wild Pokemon first to fight.').
+fight :- 
+    (\+ fight_or_flight), !,
+    write('Choose your Pokemon by typing \'pick(your_pokemon)\' command !').
 
-run :- !.
+run_success(R) :-
+    R >= 0, !,
+    retract(in_battle),
+    retract(fight_or_flight),
+    write('You choose to run. You successfully escaped from the wild Pokemon.').
     %Random
+
+run_success(R) :-
+    R < 0, !,
+    write('You can\'t escape from the wild Pokemon. Meet your luck.').
+
+run :- 
+    can_run,
+    in_battle,
+    fight_or_flight, 
+    random(-3,2,R),
+    retract(can_run),
+    run_success(R).
+run :-
+    (\+ in_battle),!,
+    write('You aren\'t in a battle broo.').
+run :-
+    (\+ fight_or_flight), !,
+    write('It isn\'t right time for choose that Broo.').
+run :-
+    (\+ can_run),
+    write('Meet your fate, You aren\'t able to run this time.').
 
 % Menghitung besar damage yang dikena musuh
 calc_damage(AttackerId, DefenderId, Result) :-

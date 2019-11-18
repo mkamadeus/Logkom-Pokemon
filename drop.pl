@@ -10,7 +10,7 @@ drop(X):-
 	delete_pokemon(PokeId),
 	write('Success, You dropped '), write(X).
 
-% Fail condition : Tidak dalam Battle
+% Fail condition : Dalam Battle
 drop(_):-
 	in_battle,!,
 	write('You can\'t drop right now, you are in a battle, Focus...!').

@@ -60,7 +60,7 @@ draw_point(X, Y) :- map_size(W, H),
 					Y > 0,
 					map_object(X, Y, 'P'),
 					map_object(X, Y, 'G'), !,
-					write('S'),
+					write('P'),
 					write(' '),
 					NewX is X+1,
 					draw_point(NewX, Y).
