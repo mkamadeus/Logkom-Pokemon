@@ -1,7 +1,7 @@
 /* File : heal.pl */
 /* File for the heal command */
 
-:- include('player.pl').
+:- include('player.pl')
 
 heal :- 
     map_object(X,Y, 'P'),
