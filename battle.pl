@@ -19,22 +19,13 @@
 :- dynamic(special_used/0).
 
 % attack_multiplier(AttackType, DefendType, Multiplier)
-attack_multiplier(normal, normal, 1).
-attack_multiplier(normal, fire, 1).
-attack_multiplier(normal, water, 1).
-attack_multiplier(normal, grass, 1).
-attack_multiplier(fire, normal, 1).
-attack_multiplier(fire, fire, 1).
-attack_multiplier(fire, water, 0.5).
-attack_multiplier(fire, grass, 1.5).
-attack_multiplier(water, normal, 1).
-attack_multiplier(water, fire, 1.5).
-attack_multiplier(water, water, 1).
-attack_multiplier(water, grass, 0.5).
-attack_multiplier(grass, normal, 1).
-attack_multiplier(grass, fire, 0.5).
-attack_multiplier(grass, water, 1.5).
-attack_multiplier(grass, grass, 1).
+attack_multiplier(normal,   normal, 1).     attack_multiplier(normal,   fire, 1).       attack_multiplier(normal,   water, 1).      attack_multiplier(normal,   grass, 1).      attack_multiplier(normal,   psychic, 1).    attack_multiplier(normal,   dark, 1).       attack_multiplier(normal,   fighting, 1).
+attack_multiplier(fire,     normal, 1).     attack_multiplier(fire,     fire, 1).       attack_multiplier(fire,     water, 0.5).    attack_multiplier(fire,     grass, 1.5).    attack_multiplier(fire,     psychic, 1).    attack_multiplier(fire,     dark, 1).       attack_multiplier(fire,     fighting, 1).
+attack_multiplier(water,    normal, 1).     attack_multiplier(water,    fire, 1.5).     attack_multiplier(water,    water, 1).      attack_multiplier(water,    grass, 0.5).    attack_multiplier(water,    psychic, 1).    attack_multiplier(water,    dark, 1).       attack_multiplier(water,    fighting, 1).
+attack_multiplier(grass,    normal, 1).     attack_multiplier(grass,    fire, 0.5).     attack_multiplier(grass,    water, 1.5).    attack_multiplier(grass,    grass, 1).      attack_multiplier(grass,    psychic, 1).    attack_multiplier(grass,    dark, 1).       attack_multiplier(grass,    fighting, 1).
+attack_multiplier(dark,     normal, 1).     attack_multiplier(dark,     fire, 0.5).     attack_multiplier(dark,     water, 1.5).    attack_multiplier(dark,     grass, 1).      attack_multiplier(dark,     psychic, 2).    attack_multiplier(dark,     dark, 0.5).     attack_multiplier(dark,     fighting, 0.5).
+attack_multiplier(psychic,  normal, 1).     attack_multiplier(psychic,  fire, 0.5).     attack_multiplier(psychic,  water, 1.5).    attack_multiplier(psychic,  grass, 1).      attack_multiplier(psychic,  psychic, 0.5).  attack_multiplier(psychic,  dark, 0.5).     attack_multiplier(psychic,  fighting, 2).
+attack_multiplier(fighting, normal, 1).     attack_multiplier(fighting, fire, 0.5).     attack_multiplier(fighting, water, 1.5).    attack_multiplier(fighting, grass, 1).      attack_multiplier(fighting, psychic, 0.5).  attack_multiplier(fighting, dark, 2).       attack_multiplier(fighting, fighting, 0.5).
 
 % Melakukan inisialisasi battle
 init_battle :-
