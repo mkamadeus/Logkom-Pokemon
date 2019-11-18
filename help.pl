@@ -2,6 +2,7 @@
 /* Store help command */
 
 help:-
+    game_start(true),
     write('                                                    '),nl,
     write('                                                    '),nl,
     write('Available commands:'),nl,
@@ -20,3 +21,16 @@ help:-
     write('     - X = Pagar '),nl,
     write('     - P = Player '),nl,
     write('     - G = Gym '),nl.
+
+help:-
+    game_start(false), !,
+	write('Game has not started, use \"start.\" to play the game"').
+
+help:-
+    in_battle, !,
+    write('You are in a battle. This is command you can use now: '),nl,
+    write('     fight.                      -- choose to fight the wild Pokemon that appears!'),nl,
+    write('     run.                        -- choose to run from the wild Pokemon!'),nl,
+    write('     pick("Pokemon\'s name").     -- choose the Pokemon you want to use!'),nl,
+    write('     Attack.                     -- Normal attack! '),nl,
+    write('     specialAttack.              -- Special attack!'),nl.
