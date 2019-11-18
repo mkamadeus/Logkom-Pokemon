@@ -7,7 +7,6 @@ map_object(4, 5, 'X').
 map_object(5, 8, 'X').
 map_object(6, 8, 'X').
 map_object(7, 8, 'X').
-map_object(8, 4, 'G').
 
 map_size(10, 10).
 

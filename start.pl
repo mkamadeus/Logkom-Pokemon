@@ -15,6 +15,7 @@ start:-
     ['capture.pl'],
     ['status.pl'],
     ['help.pl'],
+    ['drop.pl'].
 
     retract(game_start(false)), !,
     asserta(game_start(true)),
@@ -66,6 +67,7 @@ start:-
     
     % Inisialisasi Player
     assertz(map_object(1, 1, 'P')).
+    assertz(map_object(8, 4, 'G')).
 
 start :-
     write('The game has already been started. Use \'help.\' to look at available commands!').

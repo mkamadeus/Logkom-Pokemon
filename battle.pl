@@ -130,11 +130,11 @@ pokemon_exists(Slot, Name, SlotId) :-
     poke_name(PokeId, Name),
     SlotId is Slot, !.
 
-pokemon_exists(Slot, Name, _) :- !,
+pokemon_exists(Slot, Name, SlotId) :- !,
     pokemon_inventory(_, Count),
     Count > Slot,
     NewSlot is Slot + 1,
-    pokemon_exists(NewSlot, Name, _).
+    pokemon_exists(NewSlot, Name, SlotId).
 
 
 % Success Result: Mengubah selected_pokemon menjadi X
