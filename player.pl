@@ -21,6 +21,11 @@ delete_nth(N, [H|Tail1], [H|Tail2]) :- N1 is N-1, delete_nth(N1, Tail1, Tail2).
 nth_item([H|_],1, H).
 nth_item([_|T],N, X):- N1 is N-1, nth_item(T, N1, X).
 
+/* Utility function to set nth item of list */
+set_nth_item([_|T], 1, X, [X|T]).
+set_nth_item([H|T1], N, X, [H|T2]):-N1 is N-1, set_nth_item(T1, N1, X, T2).
+
+
 /* ------------------------------------------------------------------- */
 
 /* Procedure to add pokemon to inventory*/

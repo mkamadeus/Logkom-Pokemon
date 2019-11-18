@@ -120,7 +120,7 @@ reduce_health([Head|Tail], 1, Dec, [Result|Tail]) :- !,
 
 reduce_health([Head|Tail], Slot, Dec, [Head|Result]) :- !,
     NewSlot is Slot - 1,
-    reduceHealth(Tail, NewSlot, Dec, Result).
+    reduce_health(Tail, NewSlot, Dec, Result).
 
 % Pokemon musuh menyerang pemain
 enemy_turn :- !,
