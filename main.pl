@@ -3,8 +3,11 @@
 
 :- include('pokemon.pl').
 
+
+
 :- include('move.pl').
 :- include('player.pl').
+
 
 :- include('map.pl').
 :- include('battle.pl').
@@ -14,3 +17,6 @@
 :- include('status.pl').
 :- include('help.pl').
 :- include('start.pl').
+
+:- include('save.pl').
+:- include('load.pl').
