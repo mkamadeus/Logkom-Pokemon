@@ -3,6 +3,7 @@
 
 help:-
     game_start(true),
+    (\+ in_battle),
     write('                                                    '),nl,
     write('                                                    '),nl,
     write('Available commands:'),nl,
