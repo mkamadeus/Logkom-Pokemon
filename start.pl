@@ -6,6 +6,17 @@
 game_start(false).
 
 start:-
+    ['pokemon.pl'],
+    ['move.pl'],
+    ['player.pl'],
+    ['map.pl'],
+    ['battle.pl'],
+    ['encounter_simulation.pl'],
+    ['capture.pl'],
+    ['status.pl'],
+    ['help.pl'],
+    ['drop.pl'],
+
     retract(game_start(false)), !,
     asserta(game_start(true)),
     write(' .sSSSSs.                                                                                      '),nl,
@@ -55,7 +66,7 @@ start:-
     assertz(enemy_health(0)),
     
     % Inisialisasi Player
-    assertz(map_object(1, 1, 'P')).
+    assertz(map_object(1, 1, 'P')),
     assertz(map_object(8, 4, 'G')).
 
 start :-

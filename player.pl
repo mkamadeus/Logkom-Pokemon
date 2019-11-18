@@ -64,15 +64,15 @@ print_nth_slot(N):-
     poke_name(NthId, PokeName),
     write(PokeName), nl,
 
-    write("Health : "),
+    write('Health : ')
     write(NthHealth), nl,
     
     attack(NthId, PokeAttack),
-    write("Attack : "),
+    write('Attack : '),
     write(PokeAttack), nl,
     
     type(NthId, PokeType),
-    write("Type : "),
+    write('Type : '),
     write(PokeType), nl, nl.
 
 /* Print all slot */

@@ -1,0 +1,961 @@
+
+poke_name(0, 'Normal Starter Pokemon').
+poke_name(1, 'Bulbasaur').
+poke_name(2, 'Charmander').
+poke_name(3, 'Squirtle').
+poke_name(4, 'Chikorita').
+poke_name(5, 'Cyndaquil').
+poke_name(6, 'Totodile').
+poke_name(7, 'Rowlet').
+poke_name(8, 'Litten').
+poke_name(9, 'Popplio').
+poke_name(10, 'Professor Oak').
+poke_name(11, 'Tuan Yon').
+
+check_death :-
+    enemy_health(X),
+    X=<0,
+    enemy_pokemon(Y),
+    poke_name(Y, Name),
+    write(Name),
+    write(' faints! Do you want to capture it? (Use \'capture.\' to capture, otherwise move away)'),
+    !,
+    retract(in_battle),
+    retract(selected_pokemon(_)),
+    assertz(selected_pokemon(0)),
+    !,
+    retract(special_used).
+check_death :-
+    show_battle_status,
+    nl,
+    nl,
+    enemy_turn.
+
+draw_point(X, Y) :-
+    map_size(W, H),
+    X=:=W+1,
+    Y=<H+1,
+    write('X '),
+    nl,
+    NewY is Y+1,
+    draw_point(0, NewY).
+draw_point(X, Y) :-
+    map_size(_, H),
+    X=:=0,
+    Y=<H+1,
+    write('X '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+draw_point(X, Y) :-
+    map_size(W, _),
+    X<W+1,
+    X>0,
+    Y=:=0,
+    write('X '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+draw_point(X, Y) :-
+    map_size(W, H),
+    X<W+1,
+    X>0,
+    Y=:=H+1,
+    write('X '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+draw_point(X, Y) :-
+    map_size(W, H),
+    X<W+1,
+    X>0,
+    Y<H+1,
+    Y>0,
+    map_object(X, Y, 'P'),
+    map_object(X, Y, 'G'),
+    !,
+    write('S'),
+    write(' '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+draw_point(X, Y) :-
+    map_size(W, H),
+    X<W+1,
+    X>0,
+    Y<H+1,
+    Y>0,
+    map_object(X, Y, Obj),
+    !,
+    write(Obj),
+    write(' '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+draw_point(X, Y) :-
+    map_size(W, H),
+    X<W+1,
+    X>0,
+    Y<H+1,
+    Y>0,
+    \+ map_object(X, Y, _),
+    write('- '),
+    NewX is X+1,
+    draw_point(NewX, Y).
+
+:- dynamic game_start/1.
+
+game_start(true).
+
+delete_pokemon(SlotId) :-
+    pokemon_inventory(PokeList, PokeCount),
+    pokemon_health(PokeHealthList),
+    NewPokeCount is PokeCount+ -1,
+    delete_nth(SlotId, PokeList, NewPokeList),
+    delete_nth(SlotId, PokeHealthList, NewPokeHealthList),
+    assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
+    assertz(pokemon_health(NewPokeHealthList)),
+    retract(pokemon_inventory(PokeList, PokeCount)),
+    retract(pokemon_health(PokeHealthList)),
+    !.
+
+:- multifile prolog_clause_name/2.
+
+
+attack :-
+    in_battle,
+    \+ fight_or_flight,
+    \+ selected_pokemon(0),
+    !,
+    enemy_health(X),
+    retract(enemy_health(X)),
+    selected_pokemon(SelPoke),
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, SelPoke, PokeId),
+    enemy_pokemon(EnemyId),
+    calc_damage(PokeId, EnemyId, Atk),
+    NewX is X-Atk,
+    assertz(enemy_health(NewX)),
+    write('You deal '),
+    write(Atk),
+    write(' damage to the enemy!'),
+    nl,
+    nl,
+    check_death.
+attack :-
+    selected_pokemon(0),
+    !,
+    write('You have not picked a pokemon yet').
+attack :-
+    fight_or_flight,
+    !,
+    write('Type \'fight.\' to fight, type \'run\' to run.').
+attack :-
+    !,
+    write('You are currently not in a battle').
+
+encounter :-
+    encounter_pokemon(11, X),
+    !,
+    retract(enemy_pokemon(_)),
+    assertz(enemy_pokemon(X)),
+    health(X, Health),
+    retract(enemy_health(_)),
+    assertz(enemy_health(Health)),
+    init_battle.
+encounter :-
+    !.
+
+encounter_weight(1, 90).
+encounter_weight(2, 90).
+encounter_weight(3, 90).
+encounter_weight(4, 70).
+encounter_weight(5, 70).
+encounter_weight(6, 70).
+encounter_weight(7, 50).
+encounter_weight(8, 50).
+encounter_weight(9, 50).
+encounter_weight(10, 10).
+encounter_weight(11, 5).
+
+attack_multiplier(normal, normal, 1).
+attack_multiplier(normal, fire, 1).
+attack_multiplier(normal, water, 1).
+attack_multiplier(normal, grass, 1).
+attack_multiplier(normal, psychic, 1).
+attack_multiplier(normal, dark, 1).
+attack_multiplier(normal, fighting, 1).
+attack_multiplier(fire, normal, 1).
+attack_multiplier(fire, fire, 1).
+attack_multiplier(fire, water, 0.5).
+attack_multiplier(fire, grass, 1.5).
+attack_multiplier(fire, psychic, 1).
+attack_multiplier(fire, dark, 1).
+attack_multiplier(fire, fighting, 1).
+attack_multiplier(water, normal, 1).
+attack_multiplier(water, fire, 1.5).
+attack_multiplier(water, water, 1).
+attack_multiplier(water, grass, 0.5).
+attack_multiplier(water, psychic, 1).
+attack_multiplier(water, dark, 1).
+attack_multiplier(water, fighting, 1).
+attack_multiplier(grass, normal, 1).
+attack_multiplier(grass, fire, 0.5).
+attack_multiplier(grass, water, 1.5).
+attack_multiplier(grass, grass, 1).
+attack_multiplier(grass, psychic, 1).
+attack_multiplier(grass, dark, 1).
+attack_multiplier(grass, fighting, 1).
+attack_multiplier(dark, normal, 1).
+attack_multiplier(dark, fire, 0.5).
+attack_multiplier(dark, water, 1.5).
+attack_multiplier(dark, grass, 1).
+attack_multiplier(dark, psychic, 2).
+attack_multiplier(dark, dark, 0.5).
+attack_multiplier(dark, fighting, 0.5).
+attack_multiplier(psychic, normal, 1).
+attack_multiplier(psychic, fire, 0.5).
+attack_multiplier(psychic, water, 1.5).
+attack_multiplier(psychic, grass, 1).
+attack_multiplier(psychic, psychic, 0.5).
+attack_multiplier(psychic, dark, 0.5).
+attack_multiplier(psychic, fighting, 2).
+attack_multiplier(fighting, normal, 1).
+attack_multiplier(fighting, fire, 0.5).
+attack_multiplier(fighting, water, 1.5).
+attack_multiplier(fighting, grass, 1).
+attack_multiplier(fighting, psychic, 0.5).
+attack_multiplier(fighting, dark, 2).
+attack_multiplier(fighting, fighting, 0.5).
+
+draw_map :-
+    draw_point(0, 0).
+
+print_nth_slot(N) :-
+    pokemon_inventory(PokeList, _),
+    pokemon_health(PokeHealthList),
+    nth_item(PokeList, N, NthId),
+    nth_item(PokeHealthList, N, NthHealth),
+    poke_name(NthId, PokeName),
+    write(PokeName),
+    nl,
+    write("Health : "),
+    write(NthHealth),
+    nl,
+    attack(NthId, PokeAttack),
+    write("Attack : "),
+    write(PokeAttack),
+    nl,
+    type(NthId, PokeType),
+    write("Type : "),
+    write(PokeType),
+    nl,
+    nl.
+
+init_battle :-
+    assertz(fight_or_flight),
+    assertz(in_battle),
+    enemy_pokemon(X),
+    poke_name(X, Y),
+    write('A wild '),
+    write(Y),
+    write(' appears!'),
+    nl,
+    write('Fight or Run?').
+
+save :-
+    open('savefile.dat', write, S),
+    set_output(S),
+    listing,
+    close(S).
+
+:- dynamic enemy_health/1.
+
+enemy_health(-11.0).
+
+e :-
+    game_start(true),
+    \+ in_battle,
+    map_object(X, Y, 'P'),
+    XNew is X+1,
+    \+ map_object(XNew, Y, 'X'),
+    map_size(W, _),
+    XNew>0,
+    XNew=<W,
+    !,
+    retract(map_object(X, Y, 'P')),
+    assertz(map_object(XNew, Y, 'P')),
+    skip_capture,
+    encounter.
+e :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+e :-
+    in_battle,
+    !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+e :-
+    hit_wall.
+
+map :-
+    game_start(true),
+    !,
+    draw_map.
+map :-
+    !,
+    write('Game has not started, use "start." to play the game"').
+
+nth_item([H|_], 1, H) :-
+    !.
+nth_item([_|T], N, X) :-
+    N1 is N+ -1,
+    nth_item(T, N1, X).
+
+:- dynamic pokemon_health/1.
+
+pokemon_health([100, 44, 39, 39]).
+
+s :-
+    game_start(true),
+    \+ in_battle,
+    map_object(X, Y, 'P'),
+    YNew is Y+1,
+    \+ map_object(X, YNew, 'X'),
+    map_size(_, H),
+    YNew>0,
+    YNew=<H,
+    !,
+    retract(map_object(X, Y, 'P')),
+    assertz(map_object(X, YNew, 'P')),
+    skip_capture,
+    encounter.
+s :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+s :-
+    in_battle,
+    !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+s :-
+    hit_wall.
+
+hit_wall :-
+    write('You hit a wall, try using \'map.\' to see where you are right now').
+
+load :-
+    ['savefile.dat'].
+
+run :-
+    !.
+
+:- dynamic map_object/3.
+
+map_object(4, 3, 'X').
+map_object(4, 4, 'X').
+map_object(4, 5, 'X').
+map_object(5, 8, 'X').
+map_object(6, 8, 'X').
+map_object(7, 8, 'X').
+map_object(8, 4, 'G').
+map_object(10, 4, 'P').
+
+print_all_slot :-
+    pokemon_inventory(_, Count),
+    Count>0,
+    !,
+    write('Your Pokemons:\n'),
+    print_nth_slot(1),
+    print_nth_slot(2),
+    print_nth_slot(3),
+    print_nth_slot(4),
+    print_nth_slot(5),
+    print_nth_slot(6).
+
+w :-
+    game_start(true),
+    \+ in_battle,
+    map_object(X, Y, 'P'),
+    XNew is X+ -1,
+    \+ map_object(XNew, Y, 'X'),
+    map_size(W, _),
+    XNew>0,
+    XNew=<W,
+    !,
+    retract(map_object(X, Y, 'P')),
+    assertz(map_object(XNew, Y, 'P')),
+    skip_capture,
+    encounter.
+w :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+w :-
+    in_battle,
+    !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+w :-
+    hit_wall.
+
+:- multifile prolog_predicate_name/2.
+
+
+reduce_health([Head|Tail], 1, Dec, [Result|Tail]) :-
+    !,
+    Result is Head-Dec.
+reduce_health([Head|Tail], Slot, Dec, [Head|Result]) :-
+    !,
+    NewSlot is Slot+ -1,
+    reduce_health(Tail, NewSlot, Dec, Result).
+
+encounter_pokemon(IdLimit, Pokemon) :-
+    random(0, 101, IsEncounter),
+    IsEncounter=<50,
+    random(0, 101, EncounterWeight),
+    random(1, IdLimit, EncounterId),
+    encounter_weight(EncounterId, EncounterRate),
+    Pokemon is EncounterId,
+    EncounterWeight=<EncounterRate,
+    write('You encountered a '),
+    poke_name(EncounterId, EncounterName),
+    write(EncounterName),
+    write('!\n').
+
+attack(0, 50).
+attack(1, 45).
+attack(2, 39).
+attack(3, 44).
+attack(4, 45).
+attack(5, 39).
+attack(6, 50).
+attack(7, 68).
+attack(8, 45).
+attack(9, 50).
+attack(10, 100).
+attack(11, 100).
+
+check_player_death :-
+    selected_pokemon(SelPoke),
+    pokemon_health(HP),
+    nth_item(HP, SelPoke, Health),
+    Health=<0,
+    !,
+    delete_pokemon(SelPoke),
+    retract(selected_pokemon(SelPoke)),
+    assertz(selected_pokemon(0)),
+    check_player_lose,
+    !.
+check_player_death :-
+    show_battle_status,
+    !.
+
+fight :-
+    fight_or_flight,
+    !,
+    write('You chose to face the Pokemon head on. Choose your Pokemon!'),
+    retract(fight_or_flight).
+
+start :-
+    ['pokemon.pl'],
+    ['move.pl'],
+    ['player.pl'],
+    ['map.pl'],
+    ['battle.pl'],
+    ['encounter_simulation.pl'],
+    ['capture.pl'],
+    ['status.pl'],
+    ['help.pl'],
+    retract(game_start(false)),
+    !,
+    asserta(game_start(true)),
+    write(' .sSSSSs.                                                                                      '),
+    nl,
+    write(' SSSSSSSSSs. .sSSSSs.    .sSSS  SSSSS  .sSSSSs.    .sSSSsSS SSsSSSSS .sSSSSs.    .sSSSs.  SSSSS'),
+    nl,
+    write(' S SSS SSSSS S SSSSSSSs. S SSS SSSSS   S SSSSSSSs. S SSS  SSS  SSSSS S SSSSSSSs. S SSS SS SSSSS'),
+    nl,
+    write(' S  SS SSSSS S  SS SSSSS S  SS SSSSS   S  SS SSSS  S  SS   S   SSSSS S  SS SSSSS S  SS  `sSSSSS'),
+    nl,
+    write(' S..SS SSSSS S..SS SSSSS S..SSsSSSSS   S..SS       S..SS       SSSSS S..SS SSSSS S..SS    SSSSS'),
+    nl,
+    write(' S:::SsSSSSS S:::S SSSSS S:::S SSSSS   S:::SSSS    S:::S       SSSSS S:::S SSSSS S:::S    SSSSS'),
+    nl,
+    write(' S;;;S       S;;;S SSSSS S;;;S  SSSSS  S;;;S       S;;;S       SSSSS S;;;S SSSSS S;;;S    SSSSS'),
+    nl,
+    write(' S%%%S       S%%%S SSSSS S%%%S  SSSSS  S%%%S SSSSS S%%%S       SSSSS S%%%S SSSSS S%%%S    SSSSS'),
+    nl,
+    write(' SSSSS       SSSSSsSSSSS SSSSS   SSSSS SSSSSsSS;:  SSSSS       SSSSS SSSSSsSSSSS SSSSS    SSSSS'),
+    nl,
+    write('                                                                                               '),
+    nl,
+    write(' .sSSS       s.                                                                                '),
+    nl,
+    write(' SSSSS       SSSs. .sSSSSs.    .sSSSSSSSs. SSSSS       .sSSSSs.                                '),
+    nl,
+    write(' S SSS       SSSSS S SSSSSSSs. S SSS SSSSS S SSS       S SSSSSSSs.                             '),
+    nl,
+    write(' S  SS       SSSSS S  SS SSSSS S  SS SSSS  S  SS       S  SS SSSSS                             '),
+    nl,
+    write(' S..SS       SSSSS S..SS SSSSS S..SSsSSSa. S..SS       S..SS SSSSS                             '),
+    nl,
+    write(' S:::S       SSSSS S:::S SSSSS S:::S SSSSS S:::S       S:::S SSSSS                             '),
+    nl,
+    write(' S;;;S   S   SSSSS S;;;S SSSSS S;;;S SSSSS S;;;S       S;;;S SSSSS                             '),
+    nl,
+    write(' S%%%S  SSS  SSSSS S%%%S SSSSS S%%%S SSSSS S%%%S SSSSS S%%%S SSSS                              '),
+    nl,
+    write(' SSSSSsSS SSsSSSSS SSSSSsSSSSS SSSSS SSSSS SSSSSsSS;:  SSSSSsS;:                               '),
+    nl,
+    nl,
+    write('Hello! Welcome to the world of Pokemon!'),
+    nl,
+    write('My name is Doraemon! People call me Pokemon expert!'),
+    nl,
+    write('There are a lot of Pokemons being loose in this world!'),
+    nl,
+    write('You need to catch them, to make this world more secure!'),
+    nl,
+    write('If you succeed, you will get stronger and you can control them!'),
+    nl,
+    write('But there are legendary Pokemons; Tuan Yon and Professor Oak!'),
+    nl,
+    write('If you can catch all the legendary Pokemons, you\'ll win!'),
+    nl,
+    write('                                                   '),
+    nl,
+    assertz(pokemon_inventory([], 0)),
+    assertz(pokemon_health([])),
+    insert_pokemon(0),
+    !,
+    assertz(legendary(10)),
+    assertz(legendary(11)),
+    assertz(selected_pokemon(0)),
+    assertz(enemy_pokemon(0)),
+    assertz(enemy_health(0)),
+    assertz(map_object(1, 1, 'P')).
+start :-
+    write('The game has already been started. Use \'help.\' to look at available commands!').
+
+:- dynamic selected_pokemon/1.
+
+selected_pokemon(0).
+
+insert_back(X, [], [X]) :-
+    !.
+insert_back(X, [H|Tail1], [H|Tail2]) :-
+    insert_back(X, Tail1, Tail2).
+
+help :-
+    game_start(true),
+    \+ in_battle,
+    write('                                                    '),
+    nl,
+    write('                                                    '),
+    nl,
+    write('Available commands:'),
+    nl,
+    write('     start. -- start the game!'),
+    nl,
+    write('     help. -- show available commands '),
+    nl,
+    write('     quit. -- quit the game'),
+    nl,
+    write('     n. s. e. w. -- move'),
+    nl,
+    write('     map. -- look at the map'),
+    nl,
+    write('     heal -- cure Tokemon in inventory if in gym center '),
+    nl,
+    write('     status. -- show your status '),
+    nl,
+    write('     save(Filename). -- save your game'),
+    nl,
+    write('     load(Filename). -- load previously saved game'),
+    nl,
+    write('                                                    '),
+    nl,
+    write('                                                    '),
+    nl,
+    write('Legends: '),
+    nl,
+    write('     - X = Pagar '),
+    nl,
+    write('     - P = Player '),
+    nl,
+    write('     - G = Gym '),
+    nl.
+help :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+help :-
+    in_battle,
+    !,
+    write('You are in a battle. This is command you can use now: '),
+    nl,
+    write('     fight.                      -- choose to fight the wild Pokemon that appears!'),
+    nl,
+    write('     run.                        -- choose to run from the wild Pokemon!'),
+    nl,
+    write('     pick("Pokemon\'s name").     -- choose the Pokemon you want to use!'),
+    nl,
+    write('     Attack.                     -- Normal attack! '),
+    nl,
+    write('     specialAttack.              -- Special attack!'),
+    nl.
+
+:- dynamic in_battle/0.
+
+
+special(0, 0).
+special(1, 65).
+special(2, 60).
+special(3, 50).
+special(4, 49).
+special(5, 60).
+special(6, 56).
+special(7, 50).
+special(8, 60).
+special(9, 66).
+special(10, 120).
+special(11, 120).
+
+check_player_lose :-
+    !,
+    pokemon_inventory(_, 0),
+    retract(game_start(true)),
+    asserta(game_start(false)),
+    write('YOU LOSE :('),
+    !.
+check_player_lose :-
+    !,
+    write('Your Pokemon fainted! Fainted Pokemons cannot be resurrected. Choose another Pokemon to battle!').
+
+calc_special_damage(AttackerId, DefenderId, Result) :-
+    type(AttackerId, AtkType),
+    type(DefenderId, DefType),
+    special(AttackerId, AtkVal),
+    attack_multiplier(AtkType, DefType, Mult),
+    Result is AtkVal*Mult.
+
+:- thread_local thread_message_hook/3.
+:- dynamic thread_message_hook/3.
+:- volatile thread_message_hook/3.
+
+
+quit :-
+    game_start(true),
+    write('Progress will not be saved after you quit.'),
+    nl,
+    write('Are you sure? (y/n): '),
+    read(Param),
+    (   Param=y
+    ->  halt
+    ;   Param=n
+    ->  fail
+    ).
+
+:- dynamic enemy_pokemon/1.
+
+enemy_pokemon(0).
+
+delete_nth(1, [_|T], T) :-
+    !.
+delete_nth(N, [H|Tail1], [H|Tail2]) :-
+    N1 is N+ -1,
+    delete_nth(N1, Tail1, Tail2).
+
+skip_capture :-
+    !,
+    retract(enemy_pokemon(_)),
+    assertz(enemy_pokemon(0)).
+
+status :-
+    game_start(true),
+    !,
+    print_all_slot.
+status :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+
+pick(X) :-
+    in_battle,
+    \+ fight_or_flight,
+    pokemon_exists(1, X, PokeId),
+    !,
+    retract(selected_pokemon(_)),
+    assertz(selected_pokemon(PokeId)),
+    write(X),
+    write(', I choose you!'),
+    nl,
+    nl,
+    show_battle_status.
+pick(_) :-
+    fight_or_flight,
+    !,
+    write('Type \'fight.\' to fight, type \'run\' to run.').
+pick(_) :-
+    \+ in_battle,
+    !,
+    write('You are currently not in a battle').
+pick(_) :-
+    !,
+    write('You don\'t have that Pokemon').
+
+enemy_turn :-
+    !,
+    selected_pokemon(SelPoke),
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, SelPoke, PokeId),
+    enemy_pokemon(EnemyId),
+    calc_damage(EnemyId, PokeId, Atk),
+    pokemon_health(HP),
+    reduce_health(HP, SelPoke, Atk, NewHP),
+    retract(pokemon_health(HP)),
+    assertz(pokemon_health(NewHP)),
+    !,
+    write('It deals '),
+    write(Atk),
+    write(' damage to your Pokemon!'),
+    nl,
+    nl,
+    check_player_death.
+
+type(0, normal).
+type(1, grass).
+type(2, fire).
+type(3, water).
+type(4, grass).
+type(5, fire).
+type(6, water).
+type(7, grass).
+type(8, fire).
+type(9, water).
+type(10, grass).
+type(11, fire).
+
+calc_damage(AttackerId, DefenderId, Result) :-
+    type(AttackerId, AtkType),
+    type(DefenderId, DefType),
+    attack(AttackerId, AtkVal),
+    attack_multiplier(AtkType, DefType, Mult),
+    Result is AtkVal*Mult.
+
+:- dynamic special_used/0.
+
+
+insert_pokemon(PokeId) :-
+    pokemon_inventory(PokeList, PokeCount),
+    pokemon_health(PokeHealthList),
+    NewPokeCount is PokeCount+1,
+    health(PokeId, PokeHealth),
+    insert_back(PokeId, PokeList, NewPokeList),
+    insert_back(PokeHealth, PokeHealthList, NewPokeHealthList),
+    assertz(pokemon_inventory(NewPokeList, NewPokeCount)),
+    assertz(pokemon_health(NewPokeHealthList)),
+    retract(pokemon_inventory(PokeList, PokeCount)),
+    retract(pokemon_health(PokeHealthList)),
+    !.
+
+capture :-
+    game_start(true),
+    \+ in_battle,
+    enemy_pokemon(PokeId),
+    PokeId=\=0,
+    pokemon_inventory(_, Count),
+    Count<6,
+    !,
+    insert_pokemon(PokeId),
+    retract(enemy_pokemon(_)),
+    assertz(enemy_pokemon(0)),
+    poke_name(PokeId, Name),
+    write(Name),
+    write(' is captured!').
+capture :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+capture :-
+    in_battle,
+    !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+capture :-
+    enemy_pokemon(0),
+    !,
+    write('There are no Pokemons to be captured.').
+capture :-
+    !,
+    write('Your inventory is full! You have to drop a Pokemon first.').
+
+map_size(10, 10).
+
+pokemon_exists(Slot, Name, SlotId) :-
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, Slot, PokeId),
+    poke_name(PokeId, Name),
+    SlotId is Slot,
+    !.
+pokemon_exists(Slot, Name, _) :-
+    !,
+    pokemon_inventory(_, Count),
+    Count>Slot,
+    NewSlot is Slot+1,
+    pokemon_exists(NewSlot, Name, _).
+
+show_battle_status :-
+    enemy_pokemon(EnemyId),
+    poke_name(EnemyId, EnemyName),
+    enemy_health(EnemyHealth),
+    type(EnemyId, EnemyType),
+    write('Enemy:'),
+    nl,
+    write(EnemyName),
+    nl,
+    write('Health: '),
+    write(EnemyHealth),
+    nl,
+    write('Type: '),
+    write(EnemyType),
+    nl,
+    nl,
+    selected_pokemon(SlotId),
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, SlotId, PokeId),
+    poke_name(PokeId, PokeName),
+    pokemon_health(HPs),
+    nth_item(HPs, SlotId, PokeHealth),
+    type(PokeId, PokeType),
+    write('Your Pokemon:'),
+    nl,
+    write(PokeName),
+    nl,
+    write('Health: '),
+    write(PokeHealth),
+    nl,
+    write('Type: '),
+    write(PokeType),
+    nl,
+    !.
+
+health(0, 60).
+health(1, 45).
+health(2, 39).
+health(3, 44).
+health(4, 45).
+health(5, 39).
+health(6, 50).
+health(7, 68).
+health(8, 45).
+health(9, 50).
+health(10, 100).
+health(11, 100).
+
+:- dynamic prolog_exception_hook/4.
+:- multifile prolog_exception_hook/4.
+
+prolog_exception_hook(error(E, context(Ctx0, Msg)), error(E, context(prolog_stack(Stack), Msg)), Fr, GuardSpec) :-
+    prolog_stack:
+    (   current_prolog_flag(backtrace, true),
+        \+ is_stack(Ctx0, _Frames),
+        (   atom(GuardSpec)
+        ->  debug(backtrace,
+                  'Got uncaught (guard = ~q) exception ~p (Ctx0=~p)',
+                  [GuardSpec, E, Ctx0]),
+            stack_guard(GuardSpec),
+            Guard=GuardSpec
+        ;   prolog_frame_attribute(GuardSpec,
+                                   predicate_indicator,
+                                   Guard),
+            debug(backtrace,
+                  'Got exception ~p (Ctx0=~p, Catcher=~p)',
+                  [E, Ctx0, Guard]),
+            stack_guard(Guard)
+        ),
+        (   current_prolog_flag(backtrace_depth, Depth)
+        ->  Depth>0
+        ;   Depth=20
+        ),
+        get_prolog_backtrace(Depth,
+                             Stack0,
+                             [frame(Fr), guard(Guard)]),
+        debug(backtrace, 'Stack = ~p', [Stack0]),
+        clean_stack(Stack0, Stack1),
+        join_stacks(Ctx0, Stack1, Stack)
+    ).
+
+:- dynamic fight_or_flight/0.
+
+
+:- dynamic legendary/1.
+
+legendary(10).
+legendary(11).
+
+:- dynamic pokemon_inventory/2.
+
+pokemon_inventory([10, 3, 2, 5], 4).
+
+set_nth_item([_|T], 1, X, [X|T]).
+set_nth_item([H|T1], N, X, [H|T2]) :-
+    N1 is N+ -1,
+    set_nth_item(T1, N1, X, T2).
+
+n :-
+    game_start(true),
+    \+ in_battle,
+    map_object(X, Y, 'P'),
+    YNew is Y+ -1,
+    \+ map_object(X, YNew, 'X'),
+    map_size(_, H),
+    YNew>0,
+    YNew=<H,
+    !,
+    retract(map_object(X, Y, 'P')),
+    assertz(map_object(X, YNew, 'P')),
+    skip_capture,
+    encounter.
+n :-
+    game_start(false),
+    !,
+    write('Game has not started, use "start." to play the game"').
+n :-
+    in_battle,
+    !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+n :-
+    hit_wall.
+
+specialAttack :-
+    in_battle,
+    \+ fight_or_flight,
+    \+ special_used,
+    \+ selected_pokemon(0),
+    !,
+    enemy_health(X),
+    retract(enemy_health(X)),
+    selected_pokemon(SelPoke),
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, SelPoke, PokeId),
+    enemy_pokemon(EnemyId),
+    calc_special_damage(PokeId, EnemyId, Atk),
+    NewX is X-Atk,
+    assertz(enemy_health(NewX)),
+    assertz(special_used),
+    write('You deal '),
+    write(Atk),
+    write(' damage to the enemy!'),
+    nl,
+    nl,
+    check_death.
+specialAttack :-
+    selected_pokemon(0),
+    !,
+    write('You have not picked a pokemon yet').
+specialAttack :-
+    fight_or_flight,
+    !,
+    write('Type \'fight.\' to fight, type \'run\' to run.').
+specialAttack :-
+    special_used,
+    !,
+    write('You have used a special this battle.').
+specialAttack :-
+    !,
+    write('You are currently not in a battle').
