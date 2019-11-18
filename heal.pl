@@ -4,6 +4,7 @@
 :- include('player.pl')
 
 heal :- 
+    game_start(true), (\+ in_battle),
     map_object(X,Y, 'P'),
     map_object(X,Y, 'G'),
     pokemon_inventory(PokeList, _),
@@ -43,6 +44,17 @@ heal :-
     poke_name(PokeId6, PokeName6),
     write(PokeName6),
     write(" healed.\n").
+
+heal :-
+    game_start(false), !,
+	write('Game has not started, use \"start.\" to play the game"').
+
+heal :-
+    in_battle, !,
+    write('You are in a battle. Use \'help.\' to display all commands available in a battle!').
+
+heal :- !,
+    write('You are not in a Gym. go to the nearest Gym to heal your Pokemon!').
 
 heal_nth_slot(N) :-
     pokemon_inventory(PokeList, _),
