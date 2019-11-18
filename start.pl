@@ -6,8 +6,8 @@
 game_start(false).
 
 start:-
+    retract(game_start(false)), !,
     asserta(game_start(true)),
-    retract(game_start(false)),
     write(' .sSSSSs.                                                                                      '),nl,
     write(' SSSSSSSSSs. .sSSSSs.    .sSSS  SSSSS  .sSSSSs.    .sSSSsSS SSsSSSSS .sSSSSs.    .sSSSs.  SSSSS'),nl, 
     write(' S SSS SSSSS S SSSSSSSs. S SSS SSSSS   S SSSSSSSs. S SSS  SSS  SSSSS S SSSSSSSs. S SSS SS SSSSS'),nl, 
@@ -39,6 +39,9 @@ start:-
     write('If you can catch all the legendary Pokemons, you\'ll win!'),nl,
     write('                                                   '),nl,
     insert_pokemon(0), !.
+
+start :-
+    write('The game has already been started. Use \'help.\' to look at available commands!').
 
 quit :- 
     game_start(true),

@@ -3,7 +3,7 @@
 /*Kelompok 12*/
 :- include('map.pl').
 :- include('battle.pl').
-:- include('pokemon.pl').
+%:- include('pokemon.pl').
 :- include('encounter_simulation').
 
 hit_wall :-
@@ -11,10 +11,10 @@ hit_wall :-
 
 encounter :-
     encounter_pokemon(11, X), !,
-    retract(enemy_pokemon(Any1)),
+    retract(enemy_pokemon(_)),
     assertz(enemy_pokemon(X)),
     health(X, Health),
-    retract(enemy_health(Any2)),
+    retract(enemy_health(_)),
     assertz(enemy_health(Health)),
     init_battle.
 
@@ -26,7 +26,7 @@ n:-       /*Bergerak ke Utara (atas)*/
     map_object(X,Y,'P'),
     YNew is Y-1,
     (\+ map_object(X, YNew, 'X')),
-    map_size(W, H),
+    map_size(_, H),
     YNew > 0, YNew =< H, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(X,YNew,'P')),
@@ -49,7 +49,7 @@ e:- /*Bergerak ke timur (kanan)*/
     map_object(X,Y,'P'),
     XNew is X+1,
     (\+ map_object(XNew, Y, 'X')),
-    map_size(W, H),
+    map_size(W, _),
     XNew > 0, XNew =< W, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(XNew,Y,'P')),
@@ -72,7 +72,7 @@ s:- /*Bergerak ke Selatan (bawah)*/
     map_object(X,Y,'P'),
     YNew is Y+1,
     (\+ map_object(X, YNew, 'X')),
-    map_size(W, H),
+    map_size(_, H),
     YNew > 0, YNew =< H, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(X,YNew,'P')),
@@ -95,7 +95,7 @@ w:- /*Bergerak ke barat(kiri)*/
     map_object(X,Y,'P'),
     XNew is X-1,
     (\+ map_object(XNew, Y, 'X')),
-    map_size(W, H),
+    map_size(W, _),
     XNew > 0, XNew =< W, !,
     retract(map_object(X, Y, 'P')),
     assertz(map_object(XNew,Y,'P')),

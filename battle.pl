@@ -1,8 +1,8 @@
 % Untuk memulai battle, run init_battle
 % Command yang dibuka untuk player ada pada prosedur yang bersangkutan
 
-:- include('pokemon.pl').
-:- include('player.pl').
+%:- include('pokemon.pl').
+%:- include('player.pl').
 
 % selected_pokemon(IdSlot)
 :- dynamic(selected_pokemon/1).
@@ -52,6 +52,7 @@ init_battle :-
 
 fight :-
     fight_or_flight, !,
+    write('You chose to face the Pokemon head on. Choose your Pokemon!'),
     retract(fight_or_flight).
 
 run :- !.
@@ -79,19 +80,26 @@ check_death :-
     X =< 0,
     enemy_pokemon(Y),
     poke_name(Y, Name),
-    write(Name), write(' faints! Do you want to capture it? (Use \'capture.\' to capture, otherwise move away)'),
+    write(Name), write(' faints! Do you want to capture it? (Use \'capture.\' to capture, otherwise move away)'), !,
     retract(in_battle),
-    retract(special_used), !.
+    retract(selected_pokemon(_)),
+    assertz(selected_pokemon(0)),
+    retract(special_used).
 
 % Ignore bila musuh belum mati
-check_death :-
+check_death :- 
+    show_battle_status, 
+    nl, nl, 
     enemy_turn.
 
-check_player_lose :-
+check_player_lose :- !,
     pokemon_inventory(_, 0),
-    write('YOU LOSE :(').
+    retract(game_start(true)),
+    asserta(game_start(false)),
+    write('YOU LOSE :('), !.
 
-check_player_lose :- !.
+check_player_lose :- !,
+    write('Your Pokemon fainted! Fainted Pokemons cannot be resurrected. Choose another Pokemon to battle!').
 
 check_player_death :-
     selected_pokemon(SelPoke),
@@ -99,63 +107,70 @@ check_player_death :-
     nth_item(HP, SelPoke, Health),
     Health =< 0, !,
     delete_pokemon(SelPoke),
-    check_player_lose.
+    retract(selected_pokemon(SelPoke)),
+    assertz(selected_pokemon(0)),
+
+    check_player_lose, !.
 
 check_player_death :-
-    enemy_turn.
+    show_battle_status, !.
 
 reduce_health([Head|Tail], 1, Dec, [Result|Tail]) :- !,
     Result is Head - Dec.
 
 reduce_health([Head|Tail], Slot, Dec, [Head|Result]) :- !,
     NewSlot is Slot - 1,
-    reduceHealth(Tail, Slot, Dec, Result).
+    reduceHealth(Tail, NewSlot, Dec, Result).
 
 % Pokemon musuh menyerang pemain
 enemy_turn :- !,
     selected_pokemon(SelPoke),
-    pokemon_inventory(Inv, Count),
+    pokemon_inventory(Inv, _),
     nth_item(Inv, SelPoke, PokeId),
     enemy_pokemon(EnemyId),
     calc_damage(EnemyId, PokeId, Atk),
     pokemon_health(HP),
     reduce_health(HP, SelPoke, Atk, NewHP),
     retract(pokemon_health(HP)),
-    assertz(pokemon_health(NewHP)),
+    assertz(pokemon_health(NewHP)), !,
+
+    write('It deals '), write(Atk), write(' damage to your Pokemon!'), nl, nl,
+
     check_player_death.
 
 pokemon_exists(Slot, Name, SlotId) :-
-    pokemon_inventory(Inv, Count),
+    pokemon_inventory(Inv, _),
     nth_item(Inv, Slot, PokeId),
     poke_name(PokeId, Name),
     SlotId is Slot, !.
 
-pokemon_exists(Slot, Name, SlotId) :- !,
-    pokemon_inventory(Inv, Count),
+pokemon_exists(Slot, Name, _) :- !,
+    pokemon_inventory(_, Count),
     Count > Slot,
     NewSlot is Slot + 1,
-    pokemon_exists(NewSlot, Name, PokeId).
+    pokemon_exists(NewSlot, Name, _).
 
 
 % Success Result: Mengubah selected_pokemon menjadi X
 pick(X) :-
     in_battle, (\+ fight_or_flight),
     pokemon_exists(1, X, PokeId), !, 
-    retract(selected_pokemon(AnyOne)),
+    retract(selected_pokemon(_)),
     assertz(selected_pokemon(PokeId)),
-    write(X), write(', I choose you!').
+    write(X), write(', I choose you!'), nl, nl,
+    show_battle_status.
 
-pick(X) :-
+pick(_) :-
     fight_or_flight, !,
     write('Type \'fight.\' to fight, type \'run\' to run.').
 
 % Fail Condition: Tidak dalam battle
-pick(X) :-
+pick(_) :-
     (\+ in_battle), !,
     write('You are currently not in a battle').
 
 % Fail Condition: Angka slot tidak benar
-pick(X) :-
+pick(_) :-
     !,
     write('You don\'t have that Pokemon').
 
@@ -163,22 +178,26 @@ pick(X) :-
 attack :-
     in_battle, (\+ fight_or_flight),
     (\+ selected_pokemon(0)), !,
+
     enemy_health(X),
     retract(enemy_health(X)),
     selected_pokemon(SelPoke),
-    pokemon_inventory(Inv, Count),
+    pokemon_inventory(Inv, _),
     nth_item(Inv, SelPoke, PokeId),
     enemy_pokemon(EnemyId),
     calc_damage(PokeId, EnemyId, Atk),
     NewX is X - Atk,
     assertz(enemy_health(NewX)),
+    
+    write('You deal '), write(Atk), write(' damage to the enemy!'), nl, nl,
+
     check_death.
 
 attack :-
     selected_pokemon(0), !,
     write('You have not picked a pokemon yet').
 
-attack(X) :-
+attack :-
     fight_or_flight, !,
     write('Type \'fight.\' to fight, type \'run\' to run.').
 
@@ -194,19 +213,22 @@ specialAttack :-
     enemy_health(X),
     retract(enemy_health(X)),
     selected_pokemon(SelPoke),
-    pokemon_inventory(Inv, Count),
+    pokemon_inventory(Inv, _),
     nth_item(Inv, SelPoke, PokeId),
     enemy_pokemon(EnemyId),
     calc_special_damage(PokeId, EnemyId, Atk),
     NewX is X - Atk,
     assertz(enemy_health(NewX)),
+    
+    write('You deal '), write(Atk), write(' damage to the enemy!'), nl, nl,
+
     check_death.
 
 specialAttack :-
     selected_pokemon(0), !,
     write('You have not picked a pokemon yet').
 
-special_attack(X) :-
+special_attack :-
     fight_or_flight, !,
     write('Type \'fight.\' to fight, type \'run\' to run.').
 
@@ -218,3 +240,33 @@ specialAttack :-
 specialAttack :-
     !,
     write('You are currently not in a battle').
+
+
+
+
+
+show_battle_status :-
+    /* Enemy Status */
+    enemy_pokemon(EnemyId),
+    poke_name(EnemyId, EnemyName),
+    enemy_health(EnemyHealth),
+    type(EnemyId, EnemyType),
+
+    write('Enemy:'), nl,
+    write(EnemyName), nl,
+    write('Health: '), write(EnemyHealth), nl,
+    write('Type: '), write(EnemyType), nl,
+
+    nl,
+    selected_pokemon(SlotId),
+    pokemon_inventory(Inv, _),
+    nth_item(Inv, SlotId, PokeId),
+    poke_name(PokeId, PokeName),
+    pokemon_health(HPs),
+    nth_item(HPs, SlotId, PokeHealth),
+    type(PokeId, PokeType),
+
+    write('Your Pokemon:'), nl,
+    write(PokeName), nl,
+    write('Health: '), write(PokeHealth), nl,
+    write('Type: '), write(PokeType), nl, !.

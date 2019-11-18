@@ -9,3 +9,5 @@
 :- include('status.pl').
 :- include('help.pl').
 :- include('start.pl').
+
+:- include('capture.pl').

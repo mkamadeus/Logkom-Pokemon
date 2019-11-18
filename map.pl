@@ -29,7 +29,7 @@ draw_point(X, Y) :- map_size(W, H),
 					draw_point(0, NewY).
 		
 % Left Border		
-draw_point(X, Y) :- map_size(W, H),
+draw_point(X, Y) :- map_size(_, H),
 					X =:= 0,
 					Y =< H+1,
 					write('X '),
@@ -37,7 +37,7 @@ draw_point(X, Y) :- map_size(W, H),
 					draw_point(NewX, Y).
 				
 % Top Border				
-draw_point(X, Y) :- map_size(W, H),
+draw_point(X, Y) :- map_size(W, _),
 					X < W + 1,
 					X > 0,
 					Y =:= 0,
@@ -85,7 +85,7 @@ draw_point(X, Y) :- map_size(W, H),
 					X > 0,
 					Y < H + 1,
 					Y > 0,
-					(\+ map_object(X, Y, Obj)),
+					(\+ map_object(X, Y, _)),
 					write('- '),
 					NewX is X+1,
 					draw_point(NewX, Y).

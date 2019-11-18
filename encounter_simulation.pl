@@ -1,7 +1,7 @@
 /* File : encounter_simulation.pl */
 /* Place to store Pokemon Facts */
 
-:- include('pokemon.pl').
+%:- include('pokemon.pl').
 
 /* Encounter pokemon Simulation */
 /* Process : Generates three random numbers, check if encounter possible. the Pokemon that will be encountered and a random weight value*/
