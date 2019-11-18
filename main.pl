@@ -1,7 +1,7 @@
 /* File : main.pl */
 /* Main driver program */
 
-:-include('pokemon.pl').
+:- include('pokemon.pl').
 
 :- include('move.pl').
 :- include('player.pl').

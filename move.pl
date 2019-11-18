@@ -16,7 +16,8 @@ encounter :-
 
 encounter :- !.
 
-n:-       /*Bergerak ke Utara (atas)*/
+/*Bergerak ke Utara (atas)*/
+n:-       
 	game_start(true),
     (\+ in_battle),
     map_object(X,Y,'P'),
@@ -40,7 +41,8 @@ n :-
 n :-
     hit_wall.
 
-e:- /*Bergerak ke timur (kanan)*/
+/*Bergerak ke timur (kanan)*/
+e:- 
 	game_start(true),
     (\+ in_battle),
     map_object(X,Y,'P'),
@@ -64,7 +66,8 @@ e :-
 e :-
     hit_wall.
 
-s:- /*Bergerak ke Selatan (bawah)*/
+/*Bergerak ke Selatan (bawah)*/
+s:- 
 	game_start(true),
     (\+ in_battle),
     map_object(X,Y,'P'),
@@ -88,7 +91,8 @@ s :-
 s :-
     hit_wall.
 
-w:- /*Bergerak ke barat(kiri)*/
+/*Bergerak ke barat(kiri)*/
+w:- 
 	game_start(true),
     (\+ in_battle),
     map_object(X,Y,'P'),
